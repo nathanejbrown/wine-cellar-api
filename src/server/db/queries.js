@@ -20,7 +20,8 @@ exports.getOne = function (tableName, itemId, callback) {
 
 exports.postOne = function (tableName, newItem, callback) {
   db.none(`INSERT INTO ${tableName} (name, region, year, price, notes, rating) VALUES ('${newItem.name}', '${newItem.region}', ${newItem.year}, ${newItem.price}, '${newItem.notes}', ${newItem.rating})`, [true])
-  .then(function(newItem) {
+  .then(function() {
+    console.log(newItem);
     callback(null, newItem);
   }).catch(function(err) {
     callback(err);
@@ -40,7 +41,7 @@ exports.updateOne = function (tableName, itemId, updates, callback) {
       }
     }
     for (key in returnObject) {
-      db.any(`UPDATE ${tableName} SET ${key} = '${returnObject[key]}' WHERE id = ${itemId}`, [true])
+      db.any(`UPDATE ${tableName} SET ${key} = '${returnObject[key]}' WHERE id = ${itemId}`, [true]);
     }
     callback(null, returnObject);
   }).catch(function(err) {
@@ -54,5 +55,5 @@ exports.deleteOne = function(tableName, itemId, callback) {
     callback(null, data);
   }).catch(function(err) {
     callback(err);
-  })
-}
+  });
+};

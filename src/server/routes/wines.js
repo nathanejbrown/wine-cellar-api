@@ -30,12 +30,12 @@ router.get('/:id', function (req, res, next) {
 
 router.post('/', function (req, res, next) {
   const newWine = {
-    name: req.body.name,
-    region: req.body.region,
-    year: req.body.year,
-    price: req.body.price,
-    notes: req.body.notes,
-    rating: req.body.rating
+    name: req.body.name || 'None given',
+    region: req.body.region || 'None given',
+    year: parseInt(req.body.year) || 'None given',
+    price: req.body.price || 'None given',
+    notes: req.body.notes || 'None given',
+    rating: parseInt(req.body.rating) || 'None given'
   };
   queries.postOne('wines', newWine, function (err, result) {
     if (err) {
