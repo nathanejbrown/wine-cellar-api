@@ -57,3 +57,12 @@ exports.deleteOne = function(tableName, itemId, callback) {
     callback(err);
   });
 };
+
+exports.getByYear = function(tableName, year, callback) {
+  db.any(`SELECT * FROM ${tableName} WHERE year = ${year}`)
+  .then(function(data) {
+    callback(null, data);
+  }).catch(function(err) {
+    callback(err);
+  });
+};

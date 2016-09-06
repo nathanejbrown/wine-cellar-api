@@ -4,7 +4,22 @@ const queries = require('../db/queries.js');
 const db = require ('../db/connection.js');
 
 router.get('/', function (req, res, next) {
-  queries.getAll('wines', function (err, result) {
+  if (req.query.year) {
+    next();
+  } else {
+    queries.getAll('wines', function (err, result) {
+      if (err) {
+        next(err);
+      } else {
+        res.send(result);
+      }
+    });
+  }
+});
+
+router.get('/', function (req, res, next) {
+  var year = req.query.year;
+  queries.getByYear('wines', year, function (err, result) {
     if (err) {
       next(err);
     } else {
@@ -57,7 +72,7 @@ router.put('/:id', function (req, res, next) {
     price: req.body.price || null,
     notes: req.body.notes || null,
     rating: parseInt(req.body.rating) || null
-  }
+  };
   queries.updateOne('wines', wineId, update, function (err, result) {
     if (err) {
       next(err);
